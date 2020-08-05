@@ -1,0 +1,15 @@
+package com.nc.main;
+
+import com.nc.bean.Book;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+
+public class Main {
+    public static void main(String[] args) {
+//        FileSystemXmlApplicationContext ctx = new FileSystemXmlApplicationContext("D:\\StudyTest\\spring\\src\\main\\resources\\applicationContext.xml");
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        Book book = ctx.getBean(Book.class);
+        Book book = (Book) ctx.getBean("book");
+        System.out.println(book);
+    }
+}
