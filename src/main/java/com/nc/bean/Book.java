@@ -5,6 +5,17 @@ public class Book {
     private String name;
     private Double price;
 
+    public Book() {
+        System.out.println("==========无参构造==========");
+    }
+
+    public Book(Integer id, String name, Double price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        System.out.println("==========有参构造==========");
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -19,6 +30,7 @@ public class Book {
     }
 
     public void setId(Integer id) {
+        System.out.println("==========set方法==========");
         this.id = id;
     }
 

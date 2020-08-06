@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--构造器注入 根据索引-->
     <bean class="com.nc.bean.Book" id="book">
-        <property name="id" value="1"/>
-        <property name="name" value="西游记"/>
-        <property name="price" value="88"/>
+        <constructor-arg index="0" value="1"/>
+        <constructor-arg index="1" value="西游记"/>
+        <constructor-arg index="2" value="88"/>
     </bean>
-
+    <!--构造器注入 根据名称-->
+    <bean class="com.nc.bean.Book" id="book2">
+        <constructor-arg name="id" value="2"/>
+        <constructor-arg name="name" value="红楼梦"/>
+        <constructor-arg name="price" value="68"/>
+    </bean>
+    <!--无参 Set方法注入 因为反射，所以不是用Bean中定义的属性名，而是内省机制分析根基set/get方法出来的属性名-->
+    <bean class="com.nc.bean.Book" name="book3">
+        <property name="id" value="3"/>
+        <property name="name" value="雪中悍刀行"/>
+        <property name="price" value="38"/>
+    </bean>
+    <!--P名称空间注入 也是用的Set注入-->
+    <bean class="com.nc.bean.Book" name="book4" p:id="4" p:name="大魏宫廷"/>
+    <!--静态工厂-->
+    <bean class="com.nc.okhttp.OkHttpUtils" factory-method="getInstance" id="okHttpClient"/>
+    <!--实例工厂-->
+    <bean class="com.nc.okhttp.OkHttpUtils2" id="okHttpUtils"/>
+    <bean class="okhttp3.OkHttpClient" factory-bean="okHttpUtils" factory-method="getInstance" id="okHttpClient2"/>
 </beans>
