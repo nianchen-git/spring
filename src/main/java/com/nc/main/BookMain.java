@@ -4,7 +4,7 @@ import com.nc.bean.Book;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-public class Main {
+public class BookMain {
     public static void main(String[] args) {
 //        FileSystemXmlApplicationContext ctx = new FileSystemXmlApplicationContext("D:\\StudyTest\\spring\\src\\main\\resources\\applicationContext.xml");
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");

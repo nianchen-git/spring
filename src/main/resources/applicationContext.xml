@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--构造器注入 根据索引-->
     <bean class="com.nc.bean.Book" id="book">
@@ -28,4 +29,61 @@
     <!--实例工厂-->
     <bean class="com.nc.okhttp.OkHttpUtils2" id="okHttpUtils"/>
     <bean class="okhttp3.OkHttpClient" factory-bean="okHttpUtils" factory-method="getInstance" id="okHttpClient2"/>
+    <!--对象注入-->
+    <bean class="com.nc.bean.User" id="user">
+        <property name="cat" ref="cat"/>
+        <property name="favorites">
+            <array>
+                <value>足球</value>
+                <value>篮球</value>
+                <value>排球</value>
+            </array>
+        </property>
+        <property name="cats">
+            <list>
+                <ref bean="cat"/>
+                <bean class="com.nc.bean.Cat">
+                    <property name="name" value="小白"/>
+                    <property name="color" value="白色"/>
+                </bean>
+            </list>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="age" value="99"/>
+                <entry key="type" value-ref="cat"/>
+            </map>
+        </property>
+        <property name="info">
+            <props>
+                <prop key="age">99</prop>
+                <prop key="name">你猜</prop>
+            </props>
+        </property>
+    </bean>
+    <bean class="com.nc.bean.Cat" id="cat">
+        <property name="name" value="小花"/>
+        <property name="color" value="花色"/>
+    </bean>
+    <!--Xml自动化扫描-->
+    <context:component-scan base-package="com.nc.service"/>
+    <!--不扫描那种注解-->
+    <context:component-scan base-package="com.nc.service com.nc.dao">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--多环境切换-->
+    <beans profile="win">
+        <bean class="com.nc.profile.DataSource" id="dataSource">
+            <property name="url" value="jdbc:mysql://127.0.0.1:3306/dev"/>
+            <property name="name" value="root"/>
+            <property name="password" value="123456"/>
+        </bean>
+    </beans>
+    <beans profile="linux">
+        <bean class="com.nc.profile.DataSource" id="dataSource">
+            <property name="url" value="jdbc:mysql://210.13.3.127:3306/dev"/>
+            <property name="name" value="admin"/>
+            <property name="password" value="address"/>
+        </bean>
+    </beans>
 </beans>
