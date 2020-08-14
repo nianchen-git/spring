@@ -4,6 +4,7 @@ import com.nc.bean.SayHello;
 import com.nc.bean.User;
 import com.nc.config.JavaConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ImportResource;
 
 public class JavaMain {
     public static void main(String[] args) {

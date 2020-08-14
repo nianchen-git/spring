@@ -2,10 +2,7 @@ package com.nc.config;
 
 import com.nc.bean.SayHello;
 import com.nc.bean.User;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.*;
 import org.springframework.stereotype.Controller;
 /*
 * useDefaultFilters 是否使用默认的Filter扫描 默认位true，true与excludeFilters不扫描那些
@@ -13,6 +10,7 @@ import org.springframework.stereotype.Controller;
 *
 * */
 @Configuration
+@ImportResource("classpath:applicationContext.xml")
 @ComponentScan(basePackages = "com.nc.service")
 @ComponentScan(basePackages = "com.nc", useDefaultFilters = true, excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class)})
 public class JavaConfig {

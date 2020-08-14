@@ -2,7 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!--构造器注入 根据索引-->
     <bean class="com.nc.bean.Book" id="book">
@@ -61,16 +62,28 @@
             </props>
         </property>
     </bean>
-    <bean class="com.nc.bean.Cat" id="cat">
+    <!--配置单例 prototype不是单例 singleton单例 web环境 request session-->
+    <bean class="com.nc.bean.Cat" id="cat" scope="prototype">
         <property name="name" value="小花"/>
         <property name="color" value="花色"/>
     </bean>
     <!--Xml自动化扫描-->
     <context:component-scan base-package="com.nc.service"/>
     <!--不扫描那种注解-->
-    <context:component-scan base-package="com.nc.service com.nc.dao">
+    <context:component-scan base-package="com.nc.service com.nc.dao com.nc.aop">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
+    <bean class="com.nc.aop.LogAspect" id="logAspect"/>
+    <aop:config>
+        <aop:pointcut id="pc" expression="execution(* com.nc.aop.*.*(..))"/>
+        <aop:aspect ref="logAspect">
+            <aop:before method="before" pointcut-ref="pc"/>
+            <aop:after method="after" pointcut-ref="pc"/>
+            <aop:after-returning method="returning" pointcut-ref="pc" returning="o"/>
+            <aop:after-throwing method="afterThrowing" pointcut-ref="pc" throwing="e"/>
+            <aop:around method="around" pointcut-ref="pc"/>
+        </aop:aspect>
+    </aop:config>
     <!--多环境切换-->
     <beans profile="win">
         <bean class="com.nc.profile.DataSource" id="dataSource">

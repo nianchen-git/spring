@@ -1,13 +1,13 @@
 package com.nc.profile;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.*;
 
 @Configuration
+@ImportResource("classpath:applicationContext.xml")//引入xml
 public class JavaConfig {
     @Bean("ds")
     @Profile("dev")
+    @Scope("prototype")//不单例
     DataSource devDataSource(){
         DataSource dataSource = new DataSource();
         dataSource.setName("root");
